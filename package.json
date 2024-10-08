@@ -1,8 +1,6 @@
 {
-  "name": "hash-cash-front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sevazakhar.github.io/test",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "@orbs-network/ton-access": "^2.3.3",
@@ -19,9 +17,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "buffer": "^6.0.3",
     "env": "^0.0.2",
-    "husky": "^9.1.6",
     "import": "^0.0.6",
     "react": "^18.3.1",
     "react-circular-progressbar": "^2.1.0",
@@ -43,9 +39,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "eslintConfig": {
     "extends": [
@@ -79,7 +73,6 @@
     "@types/range-parser": "^1.2.7",
     "@types/send": "^0.17.4",
     "@types/yargs-parser": "^21.0.3",
-    "gh-pages": "^6.1.1",
     "react-app-rewired": "^2.2.1",
     "vite-plugin-svgr": "^4.2.0"
   }

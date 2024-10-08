@@ -28,7 +28,7 @@ export const WebSocketContext = createContext<WebSocketContextType | undefined>(
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   children,
 }) => {
-  const url = "wss://hash-cash.io/ws/telegram/hash-cash/";
+  const url = "ws://localhost/ws/telegram/main/";
   const {
     send,
     userData,
@@ -50,8 +50,8 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
     const fetchData = () => {
       if (readyState === WebSocket.OPEN) {
         console.log('socket main useEffect');
-        sendMessage('user', 'get_user_data', send, { init_data: initData });
-        sendMessage('trade_pool', 'get_all_pools', send, {});
+        sendMessage('user', 'auth', send, { init_data: initData });
+        // sendMessage('trade_pool', 'get_all_pools', send, {});
       }
     };
   
