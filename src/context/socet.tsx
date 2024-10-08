@@ -28,7 +28,7 @@ export const WebSocketContext = createContext<WebSocketContextType | undefined>(
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   children,
 }) => {
-  const url = "ws://localhost/ws/telegram/main/";
+  const url = "ws://127.0.0.1:8000/ws/telegram/main/";
   const {
     send,
     userData,
