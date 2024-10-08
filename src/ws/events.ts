@@ -11,7 +11,7 @@ export const buildMessageRequest = (
 };
 
 
-export const sendMessage = async (
+export const sendMessage = (
   type: string,
   action: string,
   send: Send,

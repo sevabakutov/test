@@ -51,7 +51,6 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       if (readyState === WebSocket.OPEN) {
         console.log('socket main useEffect');
         sendMessage('user', 'auth', send, { init_data: initData });
-        // sendMessage('trade_pool', 'get_all_pools', send, {});
       }
     };
   

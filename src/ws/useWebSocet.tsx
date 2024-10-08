@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { TradeInvestment, TradePool, UserData } from "../typings";
-import { sendMessage } from "./events";
-
+// import { sendMessage } from "./events";
 
 
 export const useWebSocket = (url: string) => {
@@ -27,10 +26,9 @@ export const useWebSocket = (url: string) => {
   useEffect(() => {
     ws.current = new WebSocket(url);
 
-    ws.current.onopen = (event) => {
+    ws.current.onopen = () => {
       console.log(`Connected: ${url}`);
       setReadyState(ws.current?.readyState);
-      // sendMessage("user", "auth", send, )
     };
 
     ws.current.onmessage = (event) => {
