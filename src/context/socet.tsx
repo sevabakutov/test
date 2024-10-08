@@ -45,6 +45,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
 
   const { tg } = useTelegram();
   const initData = tg.initData;
+  console.log(initData)
 
   useEffect(() => {
     const fetchData = () => {

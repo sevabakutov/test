@@ -24,6 +24,7 @@ export const useWebSocket = (url: string) => {
   }, []);
 
   useEffect(() => {
+    console.log()
     ws.current = new WebSocket(url);
 
     ws.current.onopen = () => {
