@@ -1,0 +1,21 @@
+.btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #080A15;
+}
+.buy{
+    background-color: rgba(0, 255, 0, 0.367)
+}
+.sell {
+    background-color: rgba(255, 0, 0, 0.339)
+}

@@ -1,0 +1,29 @@
+.photo-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+  }
+  
+  .photo-input-label {
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .photo-preview {
+    width: 100%;
+    height: 100%;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .photo-preview:hover {
+    border-color: #999; /* Изменение цвета границы при наведении */
+  }
+  

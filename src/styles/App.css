@@ -1,0 +1,16 @@
+
+body {
+  background-color: #080A15;
+  font-family: 'Roboto', sans-serif;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 40px;
+}

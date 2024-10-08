@@ -1,0 +1,173 @@
+.connectWalletBtn {
+    background-color: #0d9cfc;
+    color: rgba(255, 255, 255, 1);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+}
+
+.connectWalletBtn:hover {
+    background-color: #2da4ff;
+}
+
+.connectWalletBtn:active {
+    background-color: #3abffd;
+    transform: scale(1.02);
+}
+
+.connectWalletBtn:hover span {
+    color: rgba(255, 255, 255, 1);
+}
+
+.filterBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #080A15;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    flex-grow: 1;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+}
+
+.filterBtn:hover {
+    background-color: #333333;
+}
+
+.filterBtn:active {
+    background-color: #464646;
+    transform: scale(1.02);
+}
+
+.launchTokenBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #15c791;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.launchTokenBtn:hover {
+    background-color: #4cc2a1;
+}
+
+ 
+.launchTokenBtn:active {
+    background-color: #58c7a7;
+    transform: scale(1.02);
+}
+
+.ideaBtn {
+    width: 200px;
+    height: 60px;
+    margin: 10px;
+    background-color: #15c791;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* .ideaCrowdfundingBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #15c791;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+    flex-grow: 1;
+}
+
+.ideaCrowdfundingBtn:hover {
+    background-color: #4cc2a1;
+}
+
+.ideaCrowdfundingBtn:active {
+    background-color: #58c7a7;
+    transform: scale(1.02);
+}
+
+.ideaAltCoinBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0d9cfc;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+    flex-grow: 1;
+}
+
+.ideaAltCoinBtn:hover {
+    background-color: #2da4ff;
+}
+
+.ideaAltCoinBtn:active {
+    background-color: #3abffd;
+    transform: scale(1.02);
+}
+
+.ideaTrainidgBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ff1c55;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+    flex-grow: 1;
+}
+
+.ideaTrainidgBtn:hover {
+    background-color: #fd275d;
+}
+
+.ideaCrowdfundingBtn:active {
+    background-color: #ff2b60;
+    transform: scale(1.02);
+} */
+  

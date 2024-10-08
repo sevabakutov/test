@@ -1,0 +1,88 @@
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #8e8e8e;
+    z-index: 1000; // Чтобы навбар был над другими элементами
+  
+    &__button {
+      outline: none;
+      font-weight: bold;
+      color: #8e8e8e;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 20px 20px;
+      width: 100%;
+  
+      &--active {
+        color: #ffffff;
+        background-color: transparent;
+        border-bottom: 1px solid white;
+      }
+    }
+  }
+  
+  .content {
+    margin-top: 50px; // Отступ, чтобы контент не перекрывался навбаром
+  }
+
+
+
+.form_wrapper {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+.form_title {
+    padding: 20px 0px;
+    color: #8a8a8a;
+    font-size: 22px;
+    font-weight: 900;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-bottom: 1.8px solid #8a8a8a;
+    min-width: 300px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_block {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 30px;
+}
+
+.timePicker {
+    appearance: none;
+    background-color: transparent;
+    color: #8a8a8a;
+    outline: none;
+    box-sizing: border-box;
+    border: none;
+    border: 1px solid #8a8a8a;
+    padding: 0px 5px;
+    height: 40px;
+    width: 320px;
+}
+
+.timePicker::-webkit-calendar-picker-indicator {
+    width: 30px;
+    height: 30px;
+    filter: grayscale(100%);
+}

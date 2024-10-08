@@ -1,0 +1,86 @@
+{
+  "name": "hash-cash-front",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://sevazakhar.github.io/test",
+  "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
+    "@orbs-network/ton-access": "^2.3.3",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@ton-community/func-js": "^0.7.0",
+    "@ton/core": "^0.58.1",
+    "@ton/crypto": "^3.3.0",
+    "@ton/ton": "^15.0.0",
+    "@tonconnect/ui-react": "^2.0.9",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "buffer": "^6.0.3",
+    "env": "^0.0.2",
+    "husky": "^9.1.6",
+    "import": "^0.0.6",
+    "react": "^18.3.1",
+    "react-circular-progressbar": "^2.1.0",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1",
+    "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
+    "react-use-websocket": "^3.0.0",
+    "sass": "^1.78.0",
+    "socket.io": "^4.8.0",
+    "socket.io-client": "^4.8.0",
+    "typescript": "^4.9.5",
+    "uuid": "^10.0.0",
+    "vite": "^5.4.7",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.6",
+    "@types/body-parser": "^1.19.5",
+    "@types/http-errors": "^2.0.4",
+    "@types/istanbul-lib-report": "^3.0.3",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.4",
+    "@types/prop-types": "^15.7.13",
+    "@types/qs": "^6.9.16",
+    "@types/range-parser": "^1.2.7",
+    "@types/send": "^0.17.4",
+    "@types/yargs-parser": "^21.0.3",
+    "gh-pages": "^6.1.1",
+    "react-app-rewired": "^2.2.1",
+    "vite-plugin-svgr": "^4.2.0"
+  }
+}

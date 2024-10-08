@@ -1,0 +1,104 @@
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+}
+
+.header_block,
+.main_block,
+.list_block {
+  padding: 10px;
+  border: 2px solid #8a8a8a;
+}
+
+.main_block {
+  border-bottom: none;
+}
+
+.header_block {
+  color: #ccc;
+  font-size: 22px;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.main_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  background: #ffffff14;
+  font-size: 18px;
+  color: #ccc;
+  gap: 4px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid white;
+  color: #ccc;
+}
+
+.main_pull {
+  display: flex;
+  padding-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 19px;
+  color: white;
+  padding: 15px 5px 0 5px;
+}
+.main_pullCircle {
+  width: 40px;
+  height: 40px;
+}
+
+.list_block {
+  border-top: none;
+  padding: 10px;
+  overflow-y: scroll;
+  height: 150px;
+}
+
+.list_item {
+  border: 1px solid gray;
+  margin-bottom: 5px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+.main_btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.main_btn {
+  outline: none;
+  width: 50%;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: white;
+  border: 1px solid #8e8e8e;
+  background-color: transparent;
+
+}
+.main_btn:active {
+  background-color: rgba(255, 255, 255, 0.2); /* Светлее при нажатии */
+  color: white;
+}
