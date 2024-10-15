@@ -6,26 +6,17 @@ import PoolList from "../components/token/TokenList";
 import Header from "../components/header/Header";
 
 import { IdeaArray, IdeaContext } from "../context/idea";
-import Leaderboard from "../components/leader_board/Leaderboard";
+import List from "../components/leader_board/List";
 import Footer from "../components/footer/Footer";
+import { WebSocketContext } from "../context/socet";
 
 const Pools = () => {
+  const { leaderboard } = useContext(WebSocketContext);
   const { tradePools } = useContext(IdeaContext)!;
   const { tg } = useTelegram();
   const [activePage, setActivePage] = useState<string>("home");
   
-
   const pools: IdeaArray = [...tradePools];
-  pools.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
-
-  // const filteredIdeas: IdeaArray =
-  //   ideaTypeFilter === "all"
-  //     ? ideas
-  //     : ideas.filter((idea) => idea.type === ideaTypeFilter);
-
-  
 
   useEffect(() => {
     tg.BackButton.hide();
@@ -45,7 +36,7 @@ const Pools = () => {
         <Header />
         {activePage === "home" ? (
           <>
-            <Leaderboard />
+            <List data={leaderboard}/>
             <FilterToken />
             <PoolList pools={pools} />
           </>

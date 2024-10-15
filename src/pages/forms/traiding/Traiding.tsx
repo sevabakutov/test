@@ -5,7 +5,6 @@ import { useTonConnect } from "../../../components/hooks/useTonConnect";
 
 import { WebSocketContext } from "../../../context/socet";
 import { UserContext } from "../../../context/profile";
-import { IdeaContext } from "../../../context/idea";
 
 import MyInput from "../../../components/UI/input/MyInput";
 import MySelect from "../../../components/UI/select/MySelect";
@@ -20,8 +19,7 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 const TradePoolComponent = () => {
   const navigate = useNavigate();
 
-  const { createTradePool } = useContext(IdeaContext)!;
-  const { send, newTradePool, setNewTradePool } = useContext(WebSocketContext);
+  const { send } = useContext(WebSocketContext);
   const { user } = useContext(UserContext);
 
   const { tg } = useTelegram();
@@ -82,32 +80,38 @@ const TradePoolComponent = () => {
       (tradePool.finalAmount == null || tradePool.finalAmount <= 0) ||
       (tradePool.isOrder == true && tradePool.order == null)
     ) {
-      console.log("Button hide", "trade pool:", tradePool);
+      // console.log("Button hide", "trade pool:", tradePool);
       tg.MainButton.hide();
     } else {
-      console.log("Button show", "trade pool:", tradePool);
+      // console.log("Button show", "trade pool:", tradePool);
       tg.MainButton.show();
     }
   }, [tradePool, wallet, tg.MainButton]);
 
-  useEffect(() => {
-    const handleOnClick = () => {
-      sendMessage("trade_pool", "create", send, {
-        ...tradePool,
-      });
-    };
-    if (newTradePool) {
-      createTradePool(newTradePool);
-      setNewTradePool(null);
-      navigate("/");
-    }
-    tg.MainButton.onClick(handleOnClick);
+  const handleOnClick = () => {
+    const updatedTradePool = { ...tradePool , createdAt: new Date() };
+    setTradePool(updatedTradePool);
+    sendMessage("trade_pool", "create", send, updatedTradePool);
+    navigate("/")
+  };
 
-    return () => {
-      tg.MainButton.hide();
-      tg.MainButton.offClick(handleOnClick);
-    };
-  }, [newTradePool, tradePool, send, createTradePool, navigate, tg.MainButton]);
+  // useEffect(() => {
+
+  //   const handleOnClick = () => {
+  //     setTradePool({ ...tradePool, createdAt: new Date() });
+  //     createTradePool(tradePool);
+  //     sendMessage("trade_pool", "create", send, {
+  //       ...tradePool
+  //     });
+  //   };
+  //   tg.MainButton.onClick(handleOnClick);
+
+  //   return () => {
+  //     tg.MainButton.hide();
+  //     tg.MainButton.offClick(handleOnClick);
+  //   };
+
+  // }, [tradePool, send, createTradePool, navigate, tg.MainButton]);
 
   return (
     <div className="form_wrapper">
@@ -182,6 +186,7 @@ const TradePoolComponent = () => {
           />
         </div>
       </form>
+      <button onClick={handleOnClick}>create</button>
       {!wallet ? <TonConnectButton /> : null}
     </div>
   );

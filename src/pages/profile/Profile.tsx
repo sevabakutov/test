@@ -16,7 +16,7 @@ const Profile = () => {
   const { tg } = useTelegram();
   const navigate = useNavigate();
 
-  const { wallet, connected } = useTonConnect();
+  const { wallet } = useTonConnect();
   console.log(wallet);
 
   useEffect(() => {
@@ -30,11 +30,13 @@ const Profile = () => {
     };
   }, [tg, navigate]);
 
+  console.log("Profile, user's trade pools:", user.tradePools);
+
   return (
     <div className="profile__wrapper">
       <div className="profile__container">
         <ProfileHeader username={user.username} img={user.img} />
-        <ProfileHistoryPool pnl={user.pnl} />
+        <ProfileHistoryPool pools={user.tradePools} pnl={user.pnl} />
         <Help />
       </div>
     </div>

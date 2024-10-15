@@ -1,21 +1,21 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { TradeInvestment, TradePool, UserData } from "../typings";
-// import { sendMessage } from "./events";
+import { useEffect, useRef, useState, useCallback, useContext } from "react";
+import { LeaderboardItem, TradeInvestment, TradePool, UserData } from "../typings";
+import { IdeaContext } from "../context/idea";
+import { InvestmentContext } from "../context/investment";
 
 
 export const useWebSocket = (url: string) => {
   const ws = useRef<WebSocket>();
 
-  const [newTradePool, setNewTradePool] = useState<TradePool>(null);
-  const [allTradePools, setAllTradePools] = useState<TradePool[]>([]);
   const [userData, setUserData] = useState<UserData>(null);
-  const [needCreate, setNeedCreate] = useState<boolean>(false);
-  const [verifError, setVerifError] = useState<boolean>();
   const [error, setError] = useState<Event | null>(null);
   const [readyState, setReadyState] = useState<WebSocket["readyState"]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
 
-  
+  const { createTradePool, setTradePools, tradePools } = useContext(IdeaContext)!;
+  const { setTradeInvestments,  } = useContext(InvestmentContext);
+
 
   const send = useCallback((data: string) => {
     if (ws.current) {
@@ -33,139 +33,80 @@ export const useWebSocket = (url: string) => {
     };
 
     ws.current.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      const msg = JSON.parse(event.data);
 
-      if (data.type == "verif") {
-        setVerifError(true);
+      if (msg.type == "auth") {
 
-      } else if (data.type == "user") {
-        if (data.status == 403 && data.message == "TelegramUser matching query does not exist.") {
-          setNeedCreate(true);
+        console.log("Server response: type 'auth'", msg);
+        console.log("data", msg.data.user.user);
 
-        } else if (data.status == 403) {
-          console.log(data);
+        const newUserData = {
+          id: msg.data.user.user.id,
+          img: msg.data.user.user.img,
+          pnl: msg.data.user.user.pnl,
+          telegramWallet: msg.data.user.user.telegram_wallet,
+          username: msg.data.user.user.username,
+          tradePools: msg.data.user.trade_pools,
+          tradeInvestments: msg.data.user.trade_invs
+        };
 
-        } else if (data.status == 200) {
-          const isNewUser = data.message == "User was cerated!";
-          setNeedCreate(false);
-          setUserData({
-            id: data.user.id,
-            img: data.user.img,
-            pnl: data.user.pnl,
-            telegramWallet: data.user.telegram_wallet,
-            username: data.user.username,
-            tradePools: isNewUser ? null : data.trade_pools,
-            tradeInvestments: isNewUser ? null : data.trade_invs
-          });
-      
-          if (data.message == "User was updated!") {
-            setUserData(prevUserData => ({
-              ...prevUserData,
-              pnl: data.pnl,
-              telegramWallet: data.telegram_wallet
-            }));
-          }
+        setUserData(newUserData);
+        
+        console.log('user data:', userData);
 
-          setIsLoading(false)
-        } else {
-          console.log(data)
-        }
+        setLeaderboard(msg.data.dash);
+        setTradePools(msg.data.pools);
+        setTradeInvestments(msg.data.invs);
+        
+        setIsLoading(false);
 
-      } else if (data.type == "trade_pool") {
-          if (data.status == 200) {
-            if (data.message == 'All trade pools') {
-              console.log(data);
-              setAllTradePools(data.pools)
+      } else if (msg.type == "pool") {
+        
+        console.log("New pool:", msg.data);
+        const poolId = msg.data.id;
 
-            } else {
-              setNewTradePool({
-                id: data.user_data.id,
-                username: data.username,
-                activeId: data.user_data.active_id,
-                isLong: data.user_data.isLong,
-                isOrder: data.user_data.isOrder,
-                order: data.user_data.order,
-                finalAmount: data.user_data.final_amount,
-                stopLoss: data.user_data.stop_loss,
-                takeProfit: data.user_data.take_profit,
-                leverage: data.user_data.leverage,
-                currValue: 0,
-                inAmount: 0,
-                createdAt: data.user_data.created_at,
-                type: 'trade_pool'
-              });
+        const selectTradePool = (tradePools: TradePool[]) => {
+          const result = tradePools.find((item: TradePool) => item.id === poolId);
+          return result;
+        };
 
-              if (data.message == 'Trade pool created') {
-      
-                setUserData(prevUserData => ({
-                  ...prevUserData,
-                  username: data.username,
-                  tradePools: [...prevUserData.tradePools, newTradePool]
-                }));
-  
-              } else if (data.message == 'Pool updated') {
-            
-                setUserData(prevUserData => {
-                  const updatedPools = prevUserData.tradePools.map(pool =>
-                    pool.id === data.id ? { ...pool, ...newTradePool } : pool
-                  );
-            
-                  return {
-                    ...prevUserData,
-                    tradePools: updatedPools
-                  };
-                });
-  
-              } else {
-                console.log(data.message, data);
-              }
-            }
-          } else {
-            console.log(data);
-          }
+        const tradePool = selectTradePool(tradePools);
 
-        } else if (data.type == 'trade_inv') {
-          if (data.status == 200) {
-            const newTradeInv: TradeInvestment = {
-              id: data.id,
-              userId: data.user,
-              tradePoolId: data.trade_idea,
-              amount: data.amount_invested
-            }
-
-            if (data.message == 'Trade investment created') {
-              console.log(data);
-
-              setUserData(prevUserData => ({
-                ...prevUserData,
-                tradeInvestments: [...prevUserData.tradeInvestments, newTradeInv]
-              }));
-
-            } else if (data.message == 'Trade investment updated') {
-              console.log(data);
-
-              setUserData(prevUserData => {
-                const updatedInvestments = prevUserData.tradeInvestments.map(inv =>
-                  inv.id === data.id ? { ...inv, ...newTradeInv } : inv
-                );
+        if (!tradePool) {
+          const addTradePoolToUser = (newTradePool: TradePool): void => {
+            if (userData) {
+              setUserData((prevUserData) => {
+                const updatedTradePools = prevUserData?.tradePools
+                  ? [...prevUserData.tradePools, newTradePool]
+                  : [newTradePool];
           
                 return {
                   ...prevUserData,
-                  tradeInvestments: updatedInvestments
+                  tradePools: updatedTradePools
                 };
               });
-
-            } else {
-              console.log(data);
             }
-
-          } else {
-            console.log(data);
-          }
+          };
+  
+          addTradePoolToUser(msg.data);
+          createTradePool(msg.data);
 
         } else {
-          console.log(data);
+          setUserData((prevUserData) => {
+            const updatedTradePools = prevUserData.tradePools.map(  (pool) =>
+              pool.id === poolId ? { ...pool, ...tradePool } : pool
+            );
+            
+            return {
+              ...prevUserData,
+              tradePools: updatedTradePools
+            };
+          });
         }
+      
+      } else if (msg.type == "invs") {
+
+      }
     }
 
     ws.current.onerror = (event) => {
@@ -183,5 +124,5 @@ export const useWebSocket = (url: string) => {
     };
   }, [url]);
 
-  return { send, userData, verifError, needCreate, error, readyState, newTradePool, isLoading, setNewTradePool, allTradePools };
+  return { send, userData, error, readyState, isLoading, leaderboard};
 };

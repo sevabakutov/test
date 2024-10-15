@@ -12,15 +12,15 @@ const manifestUrl: string =
 const App = () => {
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <WebSocketProvider>
-        <UserProvider>
-          <IdeaProvider>
+      <IdeaProvider>
+        <WebSocketProvider>
+          <UserProvider>
             <BrowserRouter>
               <AppRouter />
             </BrowserRouter>
-          </IdeaProvider>
-        </UserProvider>
-      </WebSocketProvider>
+          </UserProvider>
+        </WebSocketProvider>
+      </IdeaProvider>
     </TonConnectUIProvider>
   );
 };

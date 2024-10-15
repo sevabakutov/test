@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { WebSocketContext } from "../context/socet";
 import { sendMessage } from "../ws/events";
-import { useTelegram } from "../components/hooks/useTelegram";
 import { UserData } from "../typings";
 import { useTonConnect } from "../components/hooks/useTonConnect";
 
@@ -22,37 +21,27 @@ export const UserProvider: React.FC<UserProviderProps> = ({
   children,
 }) => {
   const [user, setUser] = useState<UserData>(null);
-  const { userData, needCreate, readyState, isLoading, send } = useContext(WebSocketContext);
+  const { userData, readyState, isLoading, send } = useContext(WebSocketContext);
 
-  const { tg } = useTelegram();
   const { wallet, connected } = useTonConnect();
 
   useEffect(() => {
-    const fetchData = () => {
-      if (needCreate) {
-        sendMessage('user', 'create', send, { init_data: tg.initData });
-      } else if (!needCreate) {
-        setUser(userData);
-      }
-    }
+    setUser(userData);
 
-    fetchData();
-  }, [userData, needCreate]);
+    console.log("Profile context, user:", userData);
+
+  }, [userData]);
 
   useEffect(() => {
-    const fetchData = () => {
-      if (readyState === WebSocket.OPEN) {
-        if (connected ) {
-          sendMessage('user', 'update', send, { 
-            username: user.username, 
-            wallet_addr: wallet 
-          },);
-        }
+    if (readyState === WebSocket.OPEN) {
+      if (connected && !isLoading) {
+        sendMessage('user', 'update', send, { 
+          username: user.username, 
+          wallet: wallet 
+        },);
       }
     }
-
-    fetchData();
-}, [connected]);
+  }, [connected]);
 
 
   return (

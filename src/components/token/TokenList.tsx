@@ -1,12 +1,13 @@
 import { IdeaArray } from "../../context/idea";
 import TradePoolItem from "./TraidingIdeaItem";
-import { TradePool } from "../../typings";
 
 interface PoolListProps {
   pools: IdeaArray;
 }
 
 const PoolList: React.FC<PoolListProps> = ({ pools }) => {
+  console.log("PoolList, pools:", pools);
+
   if (!pools.length) {
     return (
       <div
@@ -24,7 +25,9 @@ const PoolList: React.FC<PoolListProps> = ({ pools }) => {
     );
   }
 
-  console.log('All pools', pools);
+  pools.sort(
+    (b, a) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
 
   return (
     <div

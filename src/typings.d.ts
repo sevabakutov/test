@@ -17,10 +17,11 @@ export interface TradePool {
 }
 
 export interface TradeInvestment {
-  id: number;
+  id?: number;
   userId: number;
   tradePoolId: number;
   amount: number;
+  time: Date;
 }
 
 export interface UserData {
@@ -32,4 +33,9 @@ export interface UserData {
 
   tradePools: TradePool[] | null;
   tradeInvestments: TradeInvestment[] | null;  
+}
+
+export interface LeaderboardItem {
+  username: string;
+  pnl: int;
 }

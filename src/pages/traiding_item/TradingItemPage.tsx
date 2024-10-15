@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTelegram } from "../../components/hooks/useTelegram";
 
 import { IdeaContext } from "../../context/idea";
@@ -7,13 +7,18 @@ import { IdeaContext } from "../../context/idea";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 import "./styles.scss";
+import { TradePool } from "../../typings";
+import InPopup from "./InPopup";
 
 const TradingItemPage = () => {
   const { id } = useParams();
 
-  const { traidings } = useContext(IdeaContext);
+  const { tradePools } = useContext(IdeaContext);
+
   const { tg } = useTelegram();
   const navigate = useNavigate();
+
+  const [inModal, setInModal] = useState<Boolean>(false);
 
   useEffect(() => {
     const handleBackButtonClick = () => navigate("/");
@@ -27,15 +32,21 @@ const TradingItemPage = () => {
     };
   }, [tg, navigate]);
 
-  const selectTraiding = (traidings) => {
-    const result = traidings.find((item) => item.id === id);
+  const selectTradePool = (tradePools: TradePool[]) => {
+    const result = tradePools.find((item: TradePool) => item.id === +id);
     return result;
   };
 
-  const traiding = selectTraiding(traidings);
-  const { active, isLong, pull, rating, risk, shelder, takeProfit } = traiding;
+  const tradePool = selectTradePool(tradePools);
+  const { username, activeId, isLong, finalAmount, stopLoss, leverage, takeProfit } = tradePool;
 
-  console.log(pull);
+  const openInModal = () => {
+    setInModal(true);
+  }
+
+  const closeInModal = () => {
+    setInModal(false);
+  }
 
   return (
     <div className="wrapper">
@@ -43,7 +54,7 @@ const TradingItemPage = () => {
         <div className="header_block">
           <div className="header_container">
             <div className="createdBy">Created by</div>
-            <div className="nick">@Peter_Parkur_2007</div>
+            <div className="nick">{username}</div>
           </div>
         </div>
         <div className="main_block">
@@ -52,9 +63,10 @@ const TradingItemPage = () => {
               <button
                 style={{ backgroundColor: "#067c06" }}
                 className="main_btn buy"
-              >
+                onClick={openInModal}>        
                 In
               </button>
+              {inModal && <InPopup tradePool={tradePool} closeModal={closeInModal} />}
               <button
                 style={{ backgroundColor: "#8a0303" }}
                 className="main_btn sell"
@@ -69,15 +81,15 @@ const TradingItemPage = () => {
               </button>
             </div>
             <div className="main_info">
-              <div className="main_info_item">Acive: {active}</div>
+              <div className="main_info_item">Acive: {activeId}</div>
               <div className="main_info_item">Long/Short: {isLong}</div>
-              <div className="main_info_item">Pull: {pull}</div>
-              <div className="main_info_item">Risk: {risk}</div>
-              <div className="main_info_item">Shelder: {shelder}</div>
+              <div className="main_info_item">Pool: {finalAmount}</div>
+              <div className="main_info_item">Stop Loss: {stopLoss}</div>
+              <div className="main_info_item">Leverage: {leverage}</div>
               <div className="main_info_item">Take Profit: {takeProfit}</div>
             </div>
             <div className="main_pull">
-              <div className="main_pullText">Pull volume</div>
+              <div className="main_pullText">Pool volume</div>
               <div className="main_pullCircle">
                 <CircularProgressbar
                   value={0}
@@ -99,38 +111,6 @@ const TradingItemPage = () => {
           <div className="list_item">
             <div className="list_item_name">Slavik</div>
             <div className="list_item_value">100%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Vitalik</div>
-            <div className="list_item_value">1%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Ibragim</div>
-            <div className="list_item_value">23%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Slavik</div>
-            <div className="list_item_value">100%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Vitalik</div>
-            <div className="list_item_value">1%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Ibragim</div>
-            <div className="list_item_value">23%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Slavik</div>
-            <div className="list_item_value">100%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Vitalik</div>
-            <div className="list_item_value">1%</div>
-          </div>
-          <div className="list_item">
-            <div className="list_item_name">Ibragim</div>
-            <div className="list_item_value">23%</div>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useTonConnect } from "../../../components/hooks/useTonConnect";
 import { Address } from "@ton/core";
 import { TonConnectButton } from "@tonconnect/ui-react";
 
+
 interface ProfileHeaderProps {
   username: string;
   img: null | string;
