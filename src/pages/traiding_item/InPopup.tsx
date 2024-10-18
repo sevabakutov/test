@@ -3,21 +3,29 @@ import { WebSocketContext } from '../../context/socet';
 import { sendMessage } from '../../ws/events';
 
 import './styles.scss';
-import { TradeInvestment } from '../../typings';
+import { TradeInvestment, TradePool } from '../../typings';
 import { UserContext } from '../../context/profile';
+
 
 const InPopup = ({ tradePool, closeModal }) => {
 
     const { send } = useContext(WebSocketContext);
     const { user } = useContext(UserContext);
+
     const [value, setValue] = useState<number>(0);
 
     const handleInOnClick = () => {
-        const updatedTradePool = { ...tradePool, currValue: tradePool.currValue + value, inAmount: tradePool.inAmount + 1 };
+        const updatedTradePool: TradePool = {
+          ...tradePool,
+          currValue: +tradePool.currValue + +value,
+          inAmount: tradePool.inAmount + 1,
+        };
+
         const investment: TradeInvestment = {
             userId: user.id,
-            tradePoolId: updatedTradePool.id,
-            amount: value,
+            username: user.username,
+            tradeIdea: updatedTradePool.id,
+            amountInvested: +value,
             time: new Date()
         }
         
@@ -25,10 +33,10 @@ const InPopup = ({ tradePool, closeModal }) => {
             "pool": updatedTradePool,
             "investment": investment
         });
-
+    
         setValue(0);
         closeModal();
-    }
+      };
 
     const handleOnChange = (event) => {
         setValue(event.target.value);

@@ -12,15 +12,22 @@ export const InvestmentProvider: React.FC<InvestemntProviderProps> = ({ children
         setTradeInvestments((prevState) => [...prevState, newTradeInvestment]);
     }
 
+    const deleteTradeInvestment = (investmentId: number|string): void => {
+        setTradeInvestments((prevState) => 
+            prevState.filter((investment) => investment.id !== investmentId)
+        );
+    };
+
     return (
         <InvestmentContext.Provider
             value={{
                 tradeInvestments,
                 setTradeInvestments,
-                createTradeInvestment
+                createTradeInvestment,
+                deleteTradeInvestment
             }}
         >
             {children}
         </InvestmentContext.Provider>
     )
-}
+};

@@ -9,11 +9,18 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "./styles.scss";
 import { TradePool } from "../../typings";
 import InPopup from "./InPopup";
+import { InvestmentContext } from "../../context/investment";
+import { UserContext } from "../../context/profile";
+import { sendMessage } from "../../ws/events";
+import { WebSocketContext } from "../../context/socet";
 
 const TradingItemPage = () => {
   const { id } = useParams();
 
+  const { user } = useContext(UserContext);
+  const { send } = useContext(WebSocketContext);
   const { tradePools } = useContext(IdeaContext);
+  const { tradeInvestments } = useContext(InvestmentContext);
 
   const { tg } = useTelegram();
   const navigate = useNavigate();
@@ -38,7 +45,11 @@ const TradingItemPage = () => {
   };
 
   const tradePool = selectTradePool(tradePools);
-  const { username, activeId, isLong, finalAmount, stopLoss, leverage, takeProfit } = tradePool;
+  const { username, activeId, isLong, finalAmount, stopLoss, leverage, takeProfit, currValue } = tradePool;
+
+  const tradePoolInvestments = tradeInvestments.filter(
+    (investment) => investment.tradeIdea == tradePool.id
+  );
 
   const openInModal = () => {
     setInModal(true);
@@ -46,6 +57,32 @@ const TradingItemPage = () => {
 
   const closeInModal = () => {
     setInModal(false);
+  }
+
+  const handleOutOnlick = () => {
+    for (let i = 0; i < tradeInvestments.length; ++i) {
+      if (tradeInvestments[i].userId == user.id && tradeInvestments[i].tradeIdea == tradePool.id) {
+        tradePool.currValue -= tradeInvestments[i].amountInvested;
+      }
+    }
+
+    sendMessage("investment", "delete", send, {
+      "pool": tradePool,
+      "investment": {
+        "userId": user.id,
+        "tradePoolId": tradePool.id
+      }
+    })
+
+    // for(let i = 0 ; i < user.tradeInvestments.length; i++) {
+    //   const updatedTradePool: TradePool = {
+    //     ...tradePool,
+    //     currValue: +tradePool.currValue - +user.tradeInvestments[i].amountInvested,
+    //     inAmount: tradePool.inAmount - 1,
+    //   };
+    // }
+    // при клике на out у нас удаляются все инвестции текущего пользователя с текущего пула. и обновляется currValue текущего пула 
+    // у нас у пользователя может быть 1239 инвестиций на пул, но при кнопке out у нас удаляются все. не заню как с inAmount
   }
 
   return (
@@ -70,6 +107,7 @@ const TradingItemPage = () => {
               <button
                 style={{ backgroundColor: "#8a0303" }}
                 className="main_btn sell"
+                onClick={handleOutOnlick}
               >
                 Out
               </button>
@@ -83,18 +121,19 @@ const TradingItemPage = () => {
             <div className="main_info">
               <div className="main_info_item">Acive: {activeId}</div>
               <div className="main_info_item">Long/Short: {isLong}</div>
-              <div className="main_info_item">Pool: {finalAmount}</div>
-              <div className="main_info_item">Stop Loss: {stopLoss}</div>
+              <div className="main_info_item">Pool amount: {finalAmount}</div>
+              <div className="main_info_item">Stop loss: {stopLoss}</div>
               <div className="main_info_item">Leverage: {leverage}</div>
-              <div className="main_info_item">Take Profit: {takeProfit}</div>
+              <div className="main_info_item">Take profit: {takeProfit}</div>
+              <div className="main_info_item">Current amount: {currValue}</div>
             </div>
             <div className="main_pull">
               <div className="main_pullText">Pool volume</div>
               <div className="main_pullCircle">
                 <CircularProgressbar
-                  value={0}
+                  value={(currValue / finalAmount) * 100}
                   maxValue={100}
-                  text={`${0}`}
+                  text={`${((currValue / finalAmount) * 100).toFixed(1)}`}
                   styles={buildStyles({
                     pathTransitionDuration: 0.5,
                     textSize: "36px",
@@ -108,10 +147,12 @@ const TradingItemPage = () => {
           </div>
         </div>
         <div className="list_block">
-          <div className="list_item">
-            <div className="list_item_name">Slavik</div>
-            <div className="list_item_value">100%</div>
-          </div>
+          {tradePoolInvestments.map((investment) => (
+            <div className="list_item">
+              <div className="list_item_name">{investment.username}</div>
+              <div className="list_item_value">{((+investment.amountInvested / finalAmount) * 100 ).toFixed(1)}%</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

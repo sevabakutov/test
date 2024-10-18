@@ -24,6 +24,7 @@ const TradePoolItem: React.FC<TradePoolItemProps> = ({ tradePool }) => {
     leverage,
     stopLoss,
     takeProfit,
+    currValue
   } = tradePool;
 
   const navigate = useNavigate();
@@ -43,7 +44,10 @@ const TradePoolItem: React.FC<TradePoolItemProps> = ({ tradePool }) => {
                 </div>
                 {/* их много */}
                 <div className="idea_item_pull">
-                  <span className="color_white">pull:</span> {finalAmount}
+                  <span className="color_white">Pool:</span> {finalAmount}
+                </div>
+                <div className="idea_item_pull">
+                  <span className="color_white">Current amount:</span> {currValue}
                 </div>
               </div>
               <div className="idea_item_info_main">
@@ -51,7 +55,7 @@ const TradePoolItem: React.FC<TradePoolItemProps> = ({ tradePool }) => {
                   <span className="color_white">Levegare:</span> {leverage}
                 </div>
                 <div className="idea_item_info_main_item">
-                  <span className="color_white">Risk:</span>
+                  <span className="color_white">Stop loss:</span>
                   {(stopLoss == 0 || stopLoss == null) ? "None" : stopLoss}
                 </div>
                 <div className="idea_item_info_main_item">
@@ -65,9 +69,9 @@ const TradePoolItem: React.FC<TradePoolItemProps> = ({ tradePool }) => {
 
               <div className="idea_item_info_rating">
                 <CircularProgressbar
-                  value={0}
+                  value={(currValue / finalAmount) * 100}
                   maxValue={100}
-                  text={`${0}`}
+                  text={`${((currValue / finalAmount) * 100).toFixed(1)}`}
                   styles={buildStyles({
                     pathTransitionDuration: 0.5,
                     textSize: "36px",

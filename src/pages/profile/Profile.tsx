@@ -10,13 +10,12 @@ import { UserContext } from "../../context/profile";
 import { useTonConnect } from "../../components/hooks/useTonConnect";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
-
-
-  const { tg } = useTelegram();
   const navigate = useNavigate();
 
+  const { user } = useContext(UserContext);
+  const { tg } = useTelegram();
   const { wallet } = useTonConnect();
+
   console.log(wallet);
 
   useEffect(() => {

@@ -8,6 +8,7 @@ interface InvestmentContextType {
     tradeInvestments: TradeInvestment[];
     setTradeInvestments: (newTradeInvestments: TradeInvestment[]) => void;
     createTradeInvestment: (newTradeInvestment: TradeInvestment) => void;
+    deleteTradeInvestment: (investmentId: number | string) => void;
 }
 
 export type InvestmentArray = (TradeInvestment)[];

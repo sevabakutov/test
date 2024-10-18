@@ -19,9 +19,11 @@ export interface TradePool {
 export interface TradeInvestment {
   id?: number;
   userId: number;
-  tradePoolId: number;
-  amount: number;
+  tradeIdea: number;
+  amountInvested: number;
   time: Date;
+
+  username?: string;
 }
 
 export interface UserData {
@@ -29,7 +31,7 @@ export interface UserData {
   img: string | null;
   pnl: number;
   telegramWallet: string | null;
-  username: string;
+  username: string | null;
 
   tradePools: TradePool[] | null;
   tradeInvestments: TradeInvestment[] | null;  

@@ -13,8 +13,8 @@ export const useWebSocket = (url: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
 
-  const { createTradePool, setTradePools, tradePools } = useContext(IdeaContext)!;
-  const { setTradeInvestments,  } = useContext(InvestmentContext);
+  const { createTradePool, updateTradePool, setTradePools, tradePools } = useContext(IdeaContext)!;
+  const { createTradeInvestment, setTradeInvestments } = useContext(InvestmentContext)!;
 
 
   const send = useCallback((data: string) => {
@@ -38,7 +38,7 @@ export const useWebSocket = (url: string) => {
       if (msg.type == "auth") {
 
         console.log("Server response: type 'auth'", msg);
-        console.log("data", msg.data.user.user);
+
 
         const newUserData = {
           id: msg.data.user.user.id,
@@ -51,9 +51,6 @@ export const useWebSocket = (url: string) => {
         };
 
         setUserData(newUserData);
-        
-        console.log('user data:', userData);
-
         setLeaderboard(msg.data.dash);
         setTradePools(msg.data.pools);
         setTradeInvestments(msg.data.invs);
@@ -63,49 +60,43 @@ export const useWebSocket = (url: string) => {
       } else if (msg.type == "pool") {
         
         console.log("New pool:", msg.data);
-        const poolId = msg.data.id;
-
-        const selectTradePool = (tradePools: TradePool[]) => {
-          const result = tradePools.find((item: TradePool) => item.id === poolId);
-          return result;
-        };
-
-        const tradePool = selectTradePool(tradePools);
-
-        if (!tradePool) {
-          const addTradePoolToUser = (newTradePool: TradePool): void => {
-            if (userData) {
-              setUserData((prevUserData) => {
-                const updatedTradePools = prevUserData?.tradePools
-                  ? [...prevUserData.tradePools, newTradePool]
-                  : [newTradePool];
-          
-                return {
-                  ...prevUserData,
-                  tradePools: updatedTradePools
-                };
-              });
-            }
-          };
-  
-          addTradePoolToUser(msg.data);
-          createTradePool(msg.data);
-
-        } else {
+    
+        const addTradePoolToUser = (newTradePool: TradePool): void => {
           setUserData((prevUserData) => {
-            const updatedTradePools = prevUserData.tradePools.map(  (pool) =>
-              pool.id === poolId ? { ...pool, ...tradePool } : pool
-            );
-            
+            const updatedTradePools = prevUserData?.tradePools
+              ? [...prevUserData.tradePools, newTradePool]
+              : [newTradePool];
+      
             return {
               ...prevUserData,
               tradePools: updatedTradePools
             };
           });
-        }
-      
-      } else if (msg.type == "invs") {
+        };
 
+        addTradePoolToUser(msg.data);
+        createTradePool(msg.data);
+      
+      } else if (msg.type == "investment") {
+
+        console.log("Server response type invs:", msg);
+
+        const tradePool = msg.data.pool;
+        const investment = msg.data.investment;
+
+        if (investment) createTradeInvestment(investment);
+
+        updateTradePool(tradePool);
+        setUserData((prevUserData) => {
+          const updatedTradePools = prevUserData.tradePools.map((pool) =>
+            pool.id === tradePool.id ? { ...pool, ...tradePool } : pool
+          );
+          
+          return {
+            ...prevUserData,
+            tradePools: updatedTradePools
+          };
+        });
       }
     }
 

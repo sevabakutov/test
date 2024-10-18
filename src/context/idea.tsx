@@ -11,6 +11,7 @@ interface IdeaContextType {
   tradePools: TradePool[];
   setTradePools: (newTradePools: TradePool[]) => void;
   createTradePool: (newTradePool: TradePool) => void;
+  updateTradePool: (updatedPool: TradePool) => void;
 
   ideaStatusFilter: string;
   setIdeaStatusFilter: (status: string) => void;
@@ -33,6 +34,15 @@ export const IdeaProvider: React.FC<IdeaProviderProps> = ({ children }) => {
     setTradePools((prevState) => [...prevState, newTradePool]);
   };
 
+  const updateTradePool = (updatedPool: TradePool): void => {
+    setTradePools((prevState) => 
+      prevState.map((trade) => 
+        trade.id === updatedPool.id ? { ...trade, ...updatedPool } : trade
+      )
+    );
+  };
+
+
 
   return (
     <IdeaContext.Provider
@@ -40,6 +50,7 @@ export const IdeaProvider: React.FC<IdeaProviderProps> = ({ children }) => {
         tradePools,
         setTradePools,
         createTradePool,
+        updateTradePool,
 
         ideaStatusFilter,
         ideaTypeFilter,
